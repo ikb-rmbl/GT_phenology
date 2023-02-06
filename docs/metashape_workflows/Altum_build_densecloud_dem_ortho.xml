@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<batchjobs version="1.7.3" save_project="true">
+  <job name="BuildDenseCloud" target="all">
+    <downscale>2</downscale>
+    <point_confidence>true</point_confidence>
+    <reuse_depth>true</reuse_depth>
+  </job>
+  <job name="BuildDem" target="all">
+    <downscale>2</downscale>
+    <interpolation>2</interpolation>
+    <projection>
+      <crs>COMPD_CS["WGS 84 / UTM zone 13N + EGM96 Height",PROJCS["WGS 84 / UTM zone 13N",GEOGCS["WGS 84",DATUM["World Geodetic System 1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9102"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator",AUTHORITY["EPSG","9807"]],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-105],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","32613"]],VERT_CS["EGM96 height",VERT_DATUM["EGM96 geoid",2005,AUTHORITY["EPSG","5171"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","5773"]]]</crs>
+      <transform>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</transform>
+      <surface>0</surface>
+      <radius>1</radius>
+    </projection>
+    <reuse_depth>true</reuse_depth>
+  </job>
+  <job name="BuildOrthomosaic" target="all">
+    <projection>
+      <crs>COMPD_CS["WGS 84 / UTM zone 13N + EGM96 Height",PROJCS["WGS 84 / UTM zone 13N",GEOGCS["WGS 84",DATUM["World Geodetic System 1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9102"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator",AUTHORITY["EPSG","9807"]],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-105],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","32613"]],VERT_CS["EGM96 height",VERT_DATUM["EGM96 geoid",2005,AUTHORITY["EPSG","5171"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","5773"]]]</crs>
+      <transform>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</transform>
+      <surface>0</surface>
+      <radius>1</radius>
+    </projection>
+    <surface_data>4</surface_data>
+  </job>
+</batchjobs>

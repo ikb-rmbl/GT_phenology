@@ -1,0 +1,97 @@
+Metashape Processing Protocol
+Ian Breckheimer, Scott LaRocca, Zach Madsen, Rachel Crafford
+Version 4
+Updated 4 February 2023
+
+Logging in to the Bloomfinder Workstation.
+1. Launch AnyDesk
+2. Connect to Gothic Workstation (124 744 800, password "bloom1984" if promptd)
+3. Log in using pass: woggy_froggy_44
+
+Project setup. This step gets all the images into a Metashape Project, loads relevant ground-control points, and does initial photo alignment.
+1. If it's not already open launch Agisoft Metashape.
+
+2. Navigate to "W:\rmbl-dronedata\raw\drone2022\GothicTownsite" in Windows Explorer and find the flights that were done for the week of interest.
+
+3. Create a new Metashape project that will hold data from all flights flown in a particular week. Name the project "GothicTownsite_2022_<month>_<day>.psx", and save it to the folder "W:\drone-projects\GothicAltum".
+
+4. Import photos from the flight by selecting "Add Photos" in the project pane. Altum photos should be in "W:\rmbl-dronedata\raw\drone2022\GothicTownsite".
+
+5. Select "Multi-camera system" after importing each round of photos.
+
+6. Disable photos from takeoff and landing by selecting them and then right-clicking "Disable Cameras". Ensure that photo GPS locations are reasonable.
+
+7. Import ground control points for that site. In the "Reference" tab on the left, click the "Import Reference" button and load the file "GothicDroneGCPs.csv". Keep the defaults for importing points.
+
+8. Save the project.
+
+9. When all photos have been added and checked. Run the batch process "Altum_align_photos.xml" in the "UG_phenology/docs/metashape_workflows/" folder to align all of the photos. After the job is running, choose "Background" and start importing photos from a new week.
+
+10. Add your progress to the "Gothic_Altum_Processing_Progress_2022" Google Sheet.
+
+
+Checking the point cloud and remove inaccurate points. This step filters the tie points to remove points that are likely in error.
+
+1. After alignment is complete, ensure that GCPs are on or near the surface of the sparse cloud. If not, or if photos have failed to align, record this on the "Gothic_Altum_Processing_Progress_2022" Google Sheet and move on to the next chunk.
+
+2. If the sparse point cloud looks OK, we then want to remove tie points with low accuracy. From the "Model" menu, select "Gradual Selection" and then "Projection Accuracy". Slide the slider to the right until the level is less than 10 or about 25% of the points are selected, whichever threshold is higher. Click "OK". 
+
+3. From the "Edit" menu, select "Delete Selection".
+
+4. Go back to the "Gradual Selection" menu and select "Reconstruction Uncertainty". Again slide the slider to the right until about 25% of the points are selected. Click "OK". 
+
+5. Remove the selected points by going to the edit menu and selecting "Delete Selection".
+
+6. Do this for each chunk, saving the project each time you are done with a chunk.
+
+
+Referencing GCPs. This step aligns the sparse cloud and camera locations with known geographic locations.
+
+1. In the reference pane, right click on the first GCP and select "Filter photos by markers".
+
+2. Find the GCP in the photo (bucket lid, checkered floor tile, or prominent rock), drag flag for marker to GCP location.
+
+3. Repeat step 12 until blue markers show up (computer guesses of where the GCP is). Click on remaining photos with white markers and drag the marker to the GCP.
+
+4. Select update georeferencing (cycle icon) from the reference pane.
+
+5. Repeat steps 11-14 for the rest of the GCPs. If one is poorly visible, skip it and go back to it 
+
+6. When all GCPs have at least 12 projections, you are ready to optimize the camera alignment.
+
+
+Optimizing Camera Alignment. This does final tweaks to the camera model and georeferencing.
+
+1. Select all of the GCPs and right click to hit the "uncheck" menu option. Optimize cameras using only the drone GPS geotags by hitting the button that looks like a star and accepting the default settings.
+
+2. Uncheck camera locations, check GCP locations.
+
+3. Repeat "Optimize Cameras" with only the GCP locations. Accept the default options.
+
+4. Check that the error for each GCP is less than 0.1m. If there are GCPs with higher error, that likely indicates that one is misplaced. Double-check to make sure all the markers are correctly placed. If error is still above the threshold, uncheck the GCP and optimize alignment without it.
+
+5. Save the project.
+
+
+Radiometric Calibration. This transforms the images to reflectance.
+
+1. Select all images of the micasense calibration target. Right-click and select. Move Cameras > Camera Groups > Calibration Images. Ignore images that don't contain the full target.
+
+2. From the "Tools" menu, select "Calibrate Reflectance".
+
+3. Select "Locate Panels". The computer will attempt to find the boundaries of the calibration target (this might take a few minutes).
+
+4. Select both "Use reflectance panels" and "Use sun sensor", and then hit "OK" to perform the calibration. After calibration, images should look very dark.
+
+5. Save the project.
+
+
+Final processing.
+
+1. In the workflow menu, select "Batch Process".
+
+2. Load the batch script "Altum_build_densecloud_dem_ortho.xml" in the "Allsites" folder.
+
+3. Ensure the "Save project after each step" option is checked.
+
+4. Select "OK" to start the batch processing. This should take several hours to complete for each project.

@@ -1,3 +1,7 @@
+# Ignores scratch and output directories
+/scratch
+/output
+
 # History files
 .Rhistory
 .Rapp.history
